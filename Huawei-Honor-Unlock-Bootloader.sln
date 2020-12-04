@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30626.31
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huawei-Honor-Unlock-Bootloader-NetFramework", "Huawei-Honor-Unlock-Bootloader-NetFramework\Huawei-Honor-Unlock-Bootloader-NetFramework.csproj", "{9FAAD6B0-CFAF-4FB7-9C06-FC36C283A540}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huawei-Honor-Unlock-Bootloader-NetCore", "Huawei-Honor-Unlock-Bootloader-NetCore\Huawei-Honor-Unlock-Bootloader-NetCore.csproj", "{437BE36F-21D8-460B-BE95-DAAD3D18AB55}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9FAAD6B0-CFAF-4FB7-9C06-FC36C283A540}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FAAD6B0-CFAF-4FB7-9C06-FC36C283A540}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FAAD6B0-CFAF-4FB7-9C06-FC36C283A540}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FAAD6B0-CFAF-4FB7-9C06-FC36C283A540}.Release|Any CPU.Build.0 = Release|Any CPU
+		{437BE36F-21D8-460B-BE95-DAAD3D18AB55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{437BE36F-21D8-460B-BE95-DAAD3D18AB55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{437BE36F-21D8-460B-BE95-DAAD3D18AB55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{437BE36F-21D8-460B-BE95-DAAD3D18AB55}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E49A2504-182D-4746-B229-5996081BBF51}
+	EndGlobalSection
+EndGlobal
