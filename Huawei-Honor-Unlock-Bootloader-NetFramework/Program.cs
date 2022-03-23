@@ -62,7 +62,7 @@ namespace Huawei_Honor_Unlock_Bootloader_NetFramework
 
 				prc = Process.Start("adb", "reboot bootloader");
 				prc.WaitForExit();
-				// input('Press enter when your device is ready... (This may take time, depending on your phone)\n');
+				Console.WriteLine("Press enter when your device is ready... (This may take time, depending on your phone)\n");
 
 				var codeOEM = BruteforceBootloader(increment);
 
@@ -84,9 +84,11 @@ namespace Huawei_Honor_Unlock_Bootloader_NetFramework
 				UseShellExecute = false,
 				CreateNoWindow = true,
 				RedirectStandardOutput = true,
+				RedirectStandardError = true,
 			};
-			
 
+			string result_fileName = "unlock_code.txt";
+			string progress_fileName = "unlock_progress.txt";
 			FileStream bak;
 			var algoOEMcode = 1000000000000000;
 			var autoreboot = false;
@@ -96,15 +98,26 @@ namespace Huawei_Honor_Unlock_Bootloader_NetFramework
 			var failmsg = "fail";
 			var unlock = false;
 			var n = 0;
+
+			if (File.Exists(progress_fileName))
+			{
+				string temp = File.ReadAllText(progress_fileName);
+				algoOEMcode = Convert.ToInt64(temp);
+			}
+
 			while (unlock == false)
 			{
 				string currentCode = algoOEMcode.ToString().PadLeft(16, '0');
-				Console.WriteLine("Bruteforce is running...\nCurrently testing code " + currentCode + "\nProgress: " + Math.Round(algoOEMcode / 10000000000000000 * 100d, 2).ToString() + "%");
-				
+				Console.WriteLine("Bruteforce is running...\nCurrently testing code " + currentCode + "\nProgress: " + Math.Round(algoOEMcode * 100d / 10000000000000000, 2).ToString() + "%");
+
 				psi.Arguments = "oem unlock " + currentCode;
 				var proc = Process.Start(psi);
 				string output = proc.StandardOutput.ReadToEnd();
+				string err = proc.StandardError.ReadToEnd();
 				proc.WaitForExit();
+
+				if (string.IsNullOrEmpty(output))
+					output = err;
 
 				Console.WriteLine(output);
 				output = output.ToLower();
@@ -112,11 +125,11 @@ namespace Huawei_Honor_Unlock_Bootloader_NetFramework
 
 				if (output.Contains("success"))
 				{
-					bak = File.OpenWrite("unlock_code.txt");
+					bak = File.OpenWrite(result_fileName);
 					bak.Write(Encoding.UTF8.GetBytes(currentCode), 0, Encoding.UTF8.GetBytes(currentCode).Length);
 					bak.Flush();
 					bak.Close();
-					Console.WriteLine("Your bruteforce result has been saved in \"unlock_code.txt\"");
+					Console.WriteLine($"Your bruteforce result has been saved in \"{result_fileName}\"");
 					return algoOEMcode;
 				}
 				if (output.Contains("reboot"))
@@ -132,7 +145,7 @@ namespace Huawei_Honor_Unlock_Bootloader_NetFramework
 				}
 				if (output.Contains(failmsg))
 				{
-					//print("Code " + str(algoOEMcode) + " is wrong, trying next one...")
+					//Console.WriteLine("Code " + algoOEMcode + " is wrong, trying next one...");
 				}
 				if (!output.Contains("success") && !output.Contains("reboot") && !output.Contains(failmsg) && unknownfail)
 				{
@@ -145,11 +158,11 @@ namespace Huawei_Honor_Unlock_Bootloader_NetFramework
 				}
 				if (n % savecount == 0)
 				{
-					bak = File.OpenWrite("unlock_code.txt");
+					bak = File.OpenWrite(progress_fileName);
 					bak.Write(Encoding.UTF8.GetBytes(currentCode), 0, Encoding.UTF8.GetBytes(currentCode).Length);
 					bak.Flush();
 					bak.Close();
-					Console.WriteLine("Your bruteforce progress has been saved in \"unlock_code.txt\"");
+					Console.WriteLine($"Your bruteforce progress has been saved in \"{progress_fileName}\"");
 				}
 				if (n % autorebootcount == 0 && autoreboot)
 				{
@@ -188,7 +201,7 @@ namespace Huawei_Honor_Unlock_Bootloader_NetFramework
 						res.Add(list[i]);
 					}
 				}
-				
+
 				return res;
 			};
 
